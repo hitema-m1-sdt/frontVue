@@ -11,7 +11,9 @@
 
       <ul class="navbar-nav">
         <li class="nav-item">
-          <router-link to="/"><a class="nav-link">Connexion</a></router-link>
+          <router-link to="/">
+            <a class="nav-link">Connexion</a>
+          </router-link>
         </li>
       </ul>
 

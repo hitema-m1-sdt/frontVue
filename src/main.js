@@ -1,33 +1,24 @@
+import axios from 'axios'
 import Vue from 'vue'
+import VueAuth from '@websanova/vue-auth'
+import VueAxios from 'vue-axios'
+import VueRouter from 'vue-router'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import VueRouter from 'vue-router'
-import LoginComponent from "@/components/LoginComponent";
-import ObjectifsComponent from "@/components/ObjectifsComponent";
+import router from './routes'
+import auth from './auth'
 
 Vue.use(BootstrapVue);
-Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
-// 2. Define some routes
-// Each route should map to a component. The "component" can
-// either be an actual component constructor created via
-// `Vue.extend()`, or just a component options object.
-// We'll talk about nested routes later.
-const routes = [
-  { path: '/', component: LoginComponent },
-  { path: '/objectifs', component: ObjectifsComponent }
-];
+Vue.router = router;
+Vue.use(VueRouter);
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
-const router = new VueRouter({
-  routes // short for `routes: routes`
-});
-
+Vue.use(VueAxios, axios);
+axios.defaults.baseURL = `${process.env.VUE_APP_API_URL}/api`;
+Vue.use(VueAuth, auth);
 
 
 new Vue({
