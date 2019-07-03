@@ -11,11 +11,20 @@
 
       <ul class="navbar-nav">
 
-        <li class="nav-item"  v-if="this.$auth.user">
+        <li class="nav-item" v-if="$auth.check()">
 
           <router-link to="/" >
             <a class="nav-link">{{ this.$auth.user.email }}</a>
           </router-link>
+        </li>
+
+        <li class="nav-item"  v-if="$auth.check()">
+
+
+          <a href="#" class="nav-link"
+             @click.prevent="$auth.logout()">Déconnexion
+          </a>
+
         </li>
 
         <li class="nav-item" v-else>
