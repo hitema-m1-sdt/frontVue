@@ -7,8 +7,10 @@
                 <th>Heure de début</th>
                 <th>Heure de fin</th>
             </tr>
-            <tr>
-
+            <tr v-for="training in trainings">
+                <td> {{new Date(training.startDate)|dateFormat('DD/MM/YYYY')}}</td>
+                <td> {{new Date(training.startDate)|dateFormat('HH:mm')}}</td>
+                <td> {{new Date(training.endDate)|dateFormat('HH:mm')}}</td>
             </tr>
         </table>
     </div>
@@ -22,9 +24,21 @@
             trainings: []
         }
         },
-        mounted()
-        {
-            console.info(this.$auth.token)
+        methods:{
+            getUsers() {
+                this.$http({
+                    url: `training/getall`,
+                    method: 'GET'
+                })
+                    .then((res) => {
+                       this.trainings = res.data;
+                    }, () => {
+                        this.has_error = true
+                    })
+            }
+        },
+        mounted() {
+            this.getUsers();
         }
     }
 </script>

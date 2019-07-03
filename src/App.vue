@@ -11,14 +11,14 @@
 
       <ul class="navbar-nav">
 
-        <li class="nav-item" v-if="$auth.user">
+        <li class="nav-item" v-if="$auth.check()">
 
           <router-link to="/" >
             <a class="nav-link">{{ this.$auth.user.email }}</a>
           </router-link>
         </li>
 
-        <li class="nav-item"  v-if="$auth.user">
+        <li class="nav-item"  v-if="$auth.check()">
 
 
           <a href="#" class="nav-link"
@@ -49,13 +49,12 @@
 </template>
 
 <script>
-import LoginComponent from './components/LoginComponent.vue'
 
 
 export default {
   name: 'app',
   components: {
-    LoginComponent
+
   },
 }
 </script>

@@ -12,6 +12,9 @@ import { faBullseye, faWalking, faScroll, faTrophy } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './routes'
 import auth from './auth'
+import VueFilterDateFormat from 'vue-filter-date-format';
+
+Vue.use(VueFilterDateFormat);
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;

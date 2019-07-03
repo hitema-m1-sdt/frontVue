@@ -19,6 +19,7 @@
     "es6-promise": "^4.2.8",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
+    "vue-filter-date-format": "^1.2.5",
     "vue-router": "^3.0.6"
   },
   "devDependencies": {

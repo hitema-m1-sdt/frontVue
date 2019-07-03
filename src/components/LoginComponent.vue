@@ -67,7 +67,6 @@
                         // handle redirection
                         // const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
 
-                        // this.$router.push({name: redirectTo})
 
                         this.$auth.user = result.data.user;
                         this.$auth.token = result.data.token;
