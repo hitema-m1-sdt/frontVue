@@ -1,18 +1,17 @@
 <template>
     <div class="col-9 mx-auto">
-        <h1>Objectifs</h1>
+        <h1>Leçons</h1>
         <table class="table table-bordered">
             <tr>
+                <th>Maitre armes</th>
                 <th>Tireur</th>
-                <th>Nom objectif</th>
-                <th>Compétence</th>
-                <th>Commentaire</th>
+                <th>Comment</th>
             </tr>
-            <tr v-for="objective in objectives">
-                <td> {{objective.idShooter}}</td>
-                <td> {{objective.objectiveName}}</td>
-                <td> {{objective.knowledge}}</td>
-                <td> {{objective.comment}}</td>
+
+            <tr v-for="lesson in lessons">
+                <td> {{lesson.idCombatInstructor}}</td>
+                <td> {{lesson.idShooter}}</td>
+                <td> {{lesson.comment}}</td>
             </tr>
         </table>
     </div>
@@ -20,20 +19,20 @@
 
 <script>
     export default {
-        name: "ObjectivesComponent",
+        name: "LessonComponent",
         data() {
             return{
-            objectives: []
+            lessons: []
         }
         },
         methods:{
             getUsers() {
                 this.$http({
-                    url: `objectives/getall`,
+                    url: `lesson/getall`,
                     method: 'GET'
                 })
                     .then((res) => {
-                       this.objectives = res.data;
+                       this.lessons = res.data;
                     }, () => {
                         this.has_error = true
                     })

@@ -9,28 +9,27 @@
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="bullseye" />
-                        Objectifs
+                        <a href="#" v-on:click="showobj()">Objectifs</a>
 
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="walking" />
-                        <a href="#" v-on:click="showComponent()">Entraînements</a>
+                        <a href="#" v-on:click="showtrn()">Entraînements</a>
 
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="scroll" />
-                        Leçons
-
+                        <a href="#" v-on:click="showlsn()">Leçons</a>
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="trophy" />
-                        Compétitions
+                        <a href="#" v-on:click="showtrng()">Compétitions</a>
 
                     </li>
                 </ul>
@@ -39,6 +38,9 @@
 
         <div class="col-9 mx-auto">
             <TrainingComponent v-if="showTraining"></TrainingComponent>
+            <ObjectivesComponent v-if="showObjectives"></ObjectivesComponent>
+            <LessonComponent v-if="showLesson"></LessonComponent>
+            <TournamentComponent v-if="showTournament"></TournamentComponent>
         </div>
     </div>
 
@@ -47,18 +49,41 @@
 
 <script>
     import TrainingComponent from "./TrainingComponent";
+    import ObjectivesComponent from "./ObjectivesComponent";
+    import LessonComponent from "./LessonComponent";
+    import TournamentComponent from "./TournamentComponent";
     export default {
         name: "DashboardComponent",
-        components: {TrainingComponent},
+        components: {
+          TrainingComponent,
+          ObjectivesComponent,
+          LessonComponent,
+          TournamentComponent,
+        },
         data() {
             return {
-                showTraining: false
+              showTraining: false,
+              showObjectives: false,
+              showLesson: false,
+              showTournament: false,
             }
         },
         methods: {
-            showComponent(){
-                this.showTraining = !this.showTraining
-            }
+            showComponent(option){
+            //this.showTraining = !this.showTraining;
+            },
+            showtrng(){
+              this.showTraining = !this.showTraining;
+            },
+            showobj(){
+              this.showObjectives = !this.showObjectives;
+            },
+            showlsn(){
+              this.showLesson = !this.showLesson;
+            },
+            showtrn(){
+              this.showTournament = !this.showTournament;
+            },
         },
         mounted() {
         }
