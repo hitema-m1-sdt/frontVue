@@ -10,8 +10,17 @@
       </ul>
 
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link to="/">
+
+        <li class="nav-item"  v-if="this.$auth.user">
+
+          <router-link to="/" >
+            <a class="nav-link">{{ this.$auth.user.email }}</a>
+          </router-link>
+        </li>
+
+        <li class="nav-item" v-else>
+
+          <router-link to="/" >
             <a class="nav-link">Connexion</a>
           </router-link>
         </li>

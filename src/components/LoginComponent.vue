@@ -43,7 +43,6 @@
         },
 
         mounted() {
-            console.log(process.env.VUE_APP_API_URL)
 
         },
 
@@ -57,18 +56,21 @@
                         email: app.email,
                         password: app.password
                     },
-                    success: function() {
+                    success: function(result) {
                         // handle redirection
                         // const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
 
                         // this.$router.push({name: redirectTo})
-                        console.log("ok");
+
+                        this.$auth.user = result.data.user;
+
+
+
                     },
                     error: function() {
                         app.has_error = true;
                     },
-                    rememberMe: true,
-                    fetchUser: true
+                    fetchUser:false
                 })
             }
         }
