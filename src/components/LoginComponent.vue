@@ -1,11 +1,11 @@
 <template>
 
-   <div>
+   <div v-if="!$auth.check()">
        <img alt="Logo" class="img" src="../assets/logo_MVDS_jpeg.png">
 
        <div class="col-sm-4 col-md-4 col-lg-4 offset-md-4 offset-lg-4 offset-sm-3">
 
-           <div class="card">
+           <div class="card shadow p-3 mb-5 bg-white rounded">
                <div class="card-body">
                    <h5 class="card-title">Connexion</h5>
                    <form @submit.prevent="login">
@@ -24,16 +24,23 @@
                </div>
            </div>
 
+
+
        </div>
    </div>
+
+    <DashboardComponent v-else>
+    </DashboardComponent>
 
 
 
 </template>
 
 <script>
+    import DashboardComponent from "@/components/DashboardComponent";
     export default {
         name: "LoginComponent",
+        components: {DashboardComponent},
         data() {
             return {
                 email: null,
@@ -63,6 +70,7 @@
                         // this.$router.push({name: redirectTo})
 
                         this.$auth.user = result.data.user;
+                        this.$auth.token = result.data.token;
 
 
 
@@ -70,7 +78,8 @@
                     error: function() {
                         app.has_error = true;
                     },
-                    fetchUser:false
+                    fetchUser:false,
+                    rememberMe:true
                 })
             }
         }

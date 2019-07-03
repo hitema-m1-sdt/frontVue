@@ -11,25 +11,25 @@
 
       <ul class="navbar-nav">
 
-        <li class="nav-item" v-if="$auth.check()">
+        <li class="nav-item" v-if="$auth.user">
 
           <router-link to="/" >
             <a class="nav-link">{{ this.$auth.user.email }}</a>
           </router-link>
         </li>
 
-        <li class="nav-item"  v-if="$auth.check()">
+        <li class="nav-item"  v-if="$auth.user">
 
 
           <a href="#" class="nav-link"
-             @click.prevent="$auth.logout()">Déconnexion
+             v-on:click="$auth.logout()">Déconnexion
           </a>
 
         </li>
 
         <li class="nav-item" v-else>
 
-          <router-link to="/" >
+          <router-link to="/">
             <a class="nav-link">Connexion</a>
           </router-link>
         </li>
@@ -56,7 +56,7 @@ export default {
   name: 'app',
   components: {
     LoginComponent
-  }
+  },
 }
 </script>
 

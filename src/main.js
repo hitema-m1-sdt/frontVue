@@ -7,11 +7,19 @@ import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faBullseye, faWalking, faScroll, faTrophy } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './routes'
 import auth from './auth'
 
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
+
+library.add(faBullseye, faWalking, faScroll,faTrophy);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 
 Vue.router = router;
 Vue.use(VueRouter);

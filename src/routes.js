@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginComponent from "@/components/LoginComponent";
-import ObjectifsComponent from "@/components/ObjectifsComponent";
+import ObjectivesComponent from "@/components/ObjectivesComponent";
+import TrainingComponent from "@/components/TrainingComponent"
 Vue.use(VueRouter);
 // routes
 const routes = [
     { name:"login", path: '/', component: LoginComponent, meta: {
             auth: false
         } },
-    { name: "objectifs", path: '/objectifs', component: ObjectifsComponent }
+    { name: "objectifs", path: '/objectifs', redirect: "/", component: ObjectivesComponent },
+    { name: "entrainements", path: '/entrainements',   component: TrainingComponent }
 ];
 
 
