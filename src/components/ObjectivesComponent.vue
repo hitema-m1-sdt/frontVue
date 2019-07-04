@@ -194,7 +194,7 @@
                     init.getObjectives();
                       console.log(response.data);
                     },function (response) {
-                      alert("ERREUR ESSAYE ENCORE")
+                      alert("ERREUR")
                       //console.log(response)
                     });
             },
