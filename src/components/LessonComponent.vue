@@ -4,9 +4,8 @@
       <table class="table table-bordered">
             <tr>
                 <th>Maitre armes</th>
-                <th>Tireur</th>
+                <th>Tireurs</th>
                 <th>Commentaires</th>
-                <th>Actions</th>
             </tr>
 
             <tr v-for="lesson in lessons">
@@ -230,6 +229,7 @@
         this.form.name = ''
         this.form.instructor = null
         this.form.instructor = []
+        this.form.comment = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
