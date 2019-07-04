@@ -125,7 +125,7 @@
         },
         instructors: [{ text: 'Sélectionner le maître d\'armes', value: null }, ],
         show: true,
-        updatelesson:[],
+        lessonupdate:[],
         formupdate: {
           name: '',
           instructor: null,
@@ -154,11 +154,11 @@
                   method: 'GET'
               })
                   .then((res) => {
-                     this.updatelesson = res.data;
-                     console.log(this.updatelesson);
+                     this.lessonupdate = res.data;
+                     console.log(this.lessonupdate);
                      this.formupdate.name = this.$auth.user.name;
-                     this.formupdate.instructor = this.updatelesson.idCombatInstructor;
-                     this.formupdate.comment = this.updatelesson.comment;
+                     this.formupdate.instructor = this.lessonupdate.idCombatInstructor;
+                     this.formupdate.comment = this.lessonupdate.comment;
                      this.lessonupdateid = id;
                   }, () => {
                       this.has_error = true
