@@ -9,7 +9,9 @@
                <div class="card-body">
                    <h5 class="card-title">Connexion</h5>
                    <form @submit.prevent="login">
-
+                       <div class="alert alert-danger" role="alert" v-if="has_error">
+                          Erreur : Les identifiants ne correspondent pas
+                       </div>
                        <!-- Vertical -->
                        <div class="form-group">
                            <input type="email" id="email" v-model="email" class="form-control" placeholder="Email">
@@ -70,6 +72,9 @@
 
                         this.$auth.user = result.data.user;
                         this.$auth.token = result.data.token;
+
+                        if(app.has_error)
+                            app.has_error = false;
 
 
 
