@@ -16,7 +16,7 @@
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="walking" />
-                        <a href="#" v-on:click="showtrn()">Entraînements</a>
+                        <a href="#" v-on:click="showtrng()">Entraînements</a>
 
                     </li>
 
@@ -29,7 +29,7 @@
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="trophy" />
-                        <a href="#" v-on:click="showtrng()">Compétitions</a>
+                        <a href="#" v-on:click="showtrn()">Compétitions</a>
 
                     </li>
                 </ul>
