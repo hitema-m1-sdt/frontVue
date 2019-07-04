@@ -13,7 +13,7 @@
                 <td> {{lesson.maitre.name}}</td>
                 <td> {{lesson.tireur.name}}</td>
                 <td> {{lesson.comment}}</td>
-                <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatelesson'), updateLesson(lesson.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteLesson(lesson.id)"><font-awesome-icon icon="trash" /></b-button></td>
+                <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatelesson'), editLesson(lesson.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteLesson(lesson.id)"><font-awesome-icon icon="trash" /></b-button></td>
             </tr>
         </table>
         <b-modal id="bv-modal-updatelesson" hide-footer>
@@ -53,7 +53,7 @@
         ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" @click="$bvModal.hide('bv-modal-updatelesson'), editlesson(lessonupdateid)" variant="primary">Mettre à jour</b-button>&nbsp
+        <b-button type="submit" @click="$bvModal.hide('bv-modal-updatelesson'), updatelesson(lessonupdateid)" variant="primary">Mettre à jour</b-button>&nbsp
         </b-form>
             <!-----FIN FORMULAIRE MODAL ------>
           </div>
@@ -148,7 +148,7 @@
                     })
                     init.getInstructor();
             },
-            updateLesson(id){
+            editLesson(id){
               this.$http({
                   url: `lesson/get/${id}`,
                   method: 'GET'
@@ -164,7 +164,7 @@
                       this.has_error = true
                   })
             },
-            editlesson(id){
+            updatelesson(id){
               var init = this;
               //console.log(id);
               this.lessonupdateid = null;
