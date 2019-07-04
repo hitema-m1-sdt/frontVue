@@ -1,7 +1,10 @@
 <template>
 
     <div>
-        <div class="col-9 mx-auto" v-if="!showTraining">
+
+        <button v-if="!displayMenu" v-on:click="showMenu()" type="button" class="btn btn-primary btn-lg"><font-awesome-icon icon="arrow-left" /> Retour</button>
+
+        <div class="col-9 mx-auto" v-if="displayMenu">
             <h1>Menu</h1>
             <div>
                 <ul class="list-group shadow p-3 mb-5 bg-white rounded">
@@ -9,27 +12,27 @@
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="bullseye" />
-                        <a href="#" v-on:click="showobj()">Objectifs</a>
+                        <a href="#" v-on:click="showObjectives()">Objectifs</a>
 
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="walking" />
-                        <a href="#" v-on:click="showtrng()">Entraînements</a>
+                        <a href="#" v-on:click="showTraining()">Entraînements</a>
 
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="scroll" />
-                        <a href="#" v-on:click="showlsn()">Leçons</a>
+                        <a href="#" v-on:click="showLesson()">Leçons</a>
                     </li>
 
                     <li class="list-group-item">
 
                         <font-awesome-icon icon="trophy" />
-                        <a href="#" v-on:click="showtrn()">Compétitions</a>
+                        <a href="#" v-on:click="showTournament()">Compétitions</a>
 
                     </li>
                 </ul>
@@ -37,10 +40,10 @@
         </div>
 
         <div class="col-9 mx-auto">
-            <TrainingComponent v-if="showTraining"></TrainingComponent>
-            <ObjectivesComponent v-if="showObjectives"></ObjectivesComponent>
-            <LessonComponent v-if="showLesson"></LessonComponent>
-            <TournamentComponent v-if="showTournament"></TournamentComponent>
+            <TrainingComponent v-if="displayTraining"></TrainingComponent>
+            <ObjectivesComponent v-if="displayObjectives"></ObjectivesComponent>
+            <LessonComponent v-if="displayLesson"></LessonComponent>
+            <TournamentComponent v-if="displayTournament"></TournamentComponent>
         </div>
     </div>
 
@@ -62,28 +65,43 @@
         },
         data() {
             return {
-              showTraining: false,
-              showObjectives: false,
-              showLesson: false,
-              showTournament: false,
+              displayMenu:true,
+              displayTraining: false,
+              displayObjectives: false,
+              displayLesson: false,
+              displayTournament: false,
             }
         },
         methods: {
             showComponent(option){
             //this.showTraining = !this.showTraining;
             },
-            showtrng(){
-              this.showTraining = !this.showTraining;
+            showTraining(){
+                this.displayMenu = false;
+                this.displayTraining = !this.displayTraining;
             },
-            showobj(){
-              this.showObjectives = !this.showObjectives;
+            showObjectives(){
+                this.displayMenu = false;
+                this.displayObjectives = !this.displayObjectives;
             },
-            showlsn(){
-              this.showLesson = !this.showLesson;
+            showLesson(){
+                this.displayMenu = false;
+                this.displayLesson = !this.displayLesson;
             },
-            showtrn(){
-              this.showTournament = !this.showTournament;
+            showTournament(){
+                this.displayMenu = false;
+                this.displayTournament = !this.displayTournament;
             },
+            showMenu()
+            {
+                this.displayMenu = true;
+                this.displayTraining = false;
+                this.displayObjectives = false;
+                this.displayLesson = false;
+                this.displayTournament = false;
+
+            },
+
         },
         mounted() {
         }

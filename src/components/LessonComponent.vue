@@ -126,6 +126,7 @@
         mounted() {
             this.getLessons();
             this.form.name = this.$auth.user.name;
+
         }
     }
 </script>

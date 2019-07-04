@@ -1,7 +1,7 @@
 <template>
     <div class="col-9 mx-auto">
         <h1>Entraînements</h1>
-        <table class="table table-bordered">
+        <table class="table table-bordered" v-if="!trainings.empty">
             <tr>
                 <th>Jour</th>
                 <th>Heure de début</th>
@@ -25,7 +25,7 @@
         }
         },
         methods:{
-            getUsers() {
+            getTrainings() {
                 this.$http({
                     url: `training/getall`,
                     method: 'GET'
@@ -37,8 +37,8 @@
                     })
             }
         },
-        mounted() {
-            this.getUsers();
+        beforeMount() {
+            this.getTrainings();
         }
     }
 </script>
