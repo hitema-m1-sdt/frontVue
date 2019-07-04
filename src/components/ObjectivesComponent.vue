@@ -10,10 +10,10 @@
             </tr>
 
             <tr v-for="objective in objectives">
-                <td> {{objectif.idShooter}}</td>
-                <td> {{objectif.objectiveName}}</td>
-                <td> {{objectif.knowledge}}</td>
-                <td> {{objectif.comment}}</td>
+                <td> {{objective.idShooter}}</td>
+                <td> {{objective.objectiveName}}</td>
+                <td> {{objective.knowledge}}</td>
+                <td> {{objective.comment}}</td>
             </tr>
         </table>
 
@@ -131,7 +131,9 @@
         // Reset our form values
         this.form.shooter = null
         this.form.shooter = []
-
+        this.form.objective = ''
+        this.form.knowledge = ''
+        this.form.comment = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {

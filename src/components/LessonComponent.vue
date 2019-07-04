@@ -229,6 +229,7 @@
         this.form.name = ''
         this.form.instructor = null
         this.form.instructor = []
+        this.form.comment = ''
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
