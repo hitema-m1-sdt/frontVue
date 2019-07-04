@@ -2,7 +2,10 @@
 
     <div>
 
-        <button v-if="!displayMenu" v-on:click="showMenu()" type="button" class="btn btn-primary btn-lg"><font-awesome-icon icon="arrow-left" /> Retour</button>
+        <div class="float-left">
+            <button v-if="!displayMenu" v-on:click="showMenu()" type="button" class="btn btn-primary btn-lg"><font-awesome-icon icon="arrow-left" /> Retour</button>
+        </div>
+
 
         <div class="col-9 mx-auto" v-if="displayMenu">
             <h1>Menu</h1>
