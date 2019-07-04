@@ -186,9 +186,8 @@
                   method: 'GET'
               })
                   .then((res) => {
-                     //this.instructors = res.data;
+                     this.instructors =  [{ text: 'Sélectionner le maître d\'armes', value: null }, ];
                      for(var i=0;i<res.data.length;i++){
-
                        this.instructors.push({ text: res.data[i].name, value: res.data[i].id });
                      }
                   }, () => {
