@@ -52,7 +52,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Envoyer</b-button>&nbsp
+      <b-button type="submit" @click="$bvModal.hide('bv-modal-example')" variant="primary">Envoyer</b-button>&nbsp
       <b-button type="reset" variant="danger">Réinitialiser</b-button>
     </b-form>
   <!--  <b-card class="mt-3" header="Form Data Result">
@@ -83,7 +83,7 @@
         }
         },
         methods:{
-            getUsers() {
+            getLessons() {
                 this.$http({
                     url: `lesson/getall`,
                     method: 'GET'
@@ -95,7 +95,7 @@
                     })
             },
             onSubmit(evt) {
-            var test = this;
+            var init = this;
               evt.preventDefault()
               //alert(JSON.stringify(this.form));
               this.$http.post('lesson/create',{
@@ -103,9 +103,8 @@
                             idCombatInstructor: this.form.instructor,
                             comment: this.form.comment,
               }).then(function (response) {
-                test.getUsers();
-                  //alert(JSON.stringify(this.form));
-                  //console.log(response.data);
+                init.getLessons();
+                  console.log(response.data);
                 },function (response) {
                   alert("ERREUR ESSAYE ENCORE")
                   //console.log(response)
@@ -125,7 +124,7 @@
       }
         },
         mounted() {
-            this.getUsers();
+            this.getLessons();
             this.form.name = this.$auth.user.name;
         }
     }
