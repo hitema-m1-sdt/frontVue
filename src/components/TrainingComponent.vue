@@ -18,8 +18,9 @@
         </div>
         <h4 v-else>Aucun entraînement</h4>
 
-        <b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-example')">Ajouter des entraînements</b-button>
-
+        <b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-example')">
+            Ajouter des entraînements
+        </b-button>
 
 
         <b-modal id="bv-modal-example" hide-footer>
@@ -137,6 +138,7 @@
                     time: this.form.time
                 }).then(function (response) {
                     init.getTrainings();
+                    init.resetFields();
                     console.log(response.data);
                 },function (response) {
                     console.log("ERREUR ESSAYE ENCORE")
@@ -146,14 +148,20 @@
             onReset(evt) {
                 evt.preventDefault()
                 // Reset our form values
-                this.form.startDate = ''
-                this.form.endDate = null
-                this.form.selectedDays = [];
+                this.resetFields();
                 // Trick to reset/clear native browser form validation state
-                this.show = false
+                this.show = false;
                 this.$nextTick(() => {
                     this.show = true
                 })
+            },
+            resetFields()
+            {
+                this.form.startDate = null;
+                this.form.endDate = null;
+                this.form.selectedDays = [];
+                this.form.time = null;
+                this.form.type = null;
             }
         },
         beforeMount() {
