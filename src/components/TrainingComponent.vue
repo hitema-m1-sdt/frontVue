@@ -80,7 +80,7 @@
                         ></b-form-checkbox-group>
                     </b-form-group>
 
-                    <b-button type="submit" @click="$bvModal.hide('bv-modal-example')" variant="primary">Envoyer</b-button>&nbsp
+                    <b-button type="submit" @click="$bvModal.hide('bv-modal-create')" variant="primary">Envoyer</b-button>&nbsp;
                     <b-button type="reset" variant="danger">Réinitialiser</b-button>
                 </b-form>
                 <!--  <b-card class="mt-3" header="Form Data Result">
@@ -89,8 +89,10 @@
 
                 <!-----FIN FORMULAIRE MODAL ------>
             </div>
-            <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Fermer</b-button>
+            <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-create')">Fermer</b-button>
         </b-modal>
+
+        <!-- UPDATE -->
 
         <b-modal id="bv-modal-edit" hide-footer>
             <template slot="modal-title">
@@ -99,7 +101,7 @@
             <div class="d-block text-center">
                 <!-----DEBUT FORMULAIRE MODAL ------>
 
-                <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                <b-form v-if="show">
 
                     <b-form-group id="input-group-1" label="Type:" label-for="input-1">
                         <b-form-select v-model="formUpdate.type" :options="form.types"></b-form-select>
@@ -125,7 +127,7 @@
                     </b-form-group>
 
 
-                    <b-button type="submit" @click="$bvModal.hide('bv-modal-edit')" variant="primary">Envoyer</b-button>&nbsp
+                    <b-button type="submit" @click="$bvModal.hide('bv-modal-edit'), updateTraining(formUpdate.id)" variant="primary">Envoyer</b-button>&nbsp
                 </b-form>
 
                 <!-----FIN FORMULAIRE MODAL ------>
@@ -162,9 +164,10 @@
                         type: null,
                 },
                 formUpdate: {
-                  date: null,
-                  type: null,
-                  time: null
+                    date: null,
+                    type: null,
+                    time: null,
+                    id: null
                 },
                 show: true
         }
@@ -194,11 +197,30 @@
                     init.formUpdate.date = date;
                     
 
-                    let time = `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+                    let time = `${dateTime.getHours()}:${(dateTime.getMinutes()<10?'0':'')+dateTime.getMinutes()}`;
                     console.log(time);
                     init.formUpdate.time = time;
 
+                    this.formUpdate.id = $id;
 
+
+                });
+            },
+            updateTraining($id){
+                var init = this;
+                this.formUpdate.id = null;
+                //console.log(id);
+                this.$http.post(`/training/update/${$id}`,{
+                    type: this.formUpdate.type,
+                    date: this.formUpdate.date,
+                    time: this.formUpdate.time
+
+
+                }).then(function (response) {
+                    init.getTrainings();
+                    console.log(response.data);
+                },function (response) {
+                    console.log(response)
                 });
             },
             onSubmit(evt) {
