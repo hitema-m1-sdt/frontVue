@@ -6,6 +6,7 @@
                 <th>Maitre armes</th>
                 <th>Tireurs</th>
                 <th>Commentaires</th>
+                <th>Actions</th>
             </tr>
 
             <tr v-for="lesson in lessons">
