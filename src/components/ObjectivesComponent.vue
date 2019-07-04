@@ -27,9 +27,9 @@
         }
         },
         methods:{
-            getUsers() {
+            getTrainings() {
                 this.$http({
-                    url: `objectives/getall`,
+                    url: `objective/getall`,
                     method: 'GET'
                 })
                     .then((res) => {
@@ -40,7 +40,7 @@
             }
         },
         mounted() {
-            this.getUsers();
+            this.getTrainings();
         }
     }
 </script>

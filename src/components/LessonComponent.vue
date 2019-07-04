@@ -26,7 +26,7 @@
         }
         },
         methods:{
-            getUsers() {
+            getTrainings() {
                 this.$http({
                     url: `lesson/getall`,
                     method: 'GET'
@@ -39,7 +39,7 @@
             }
         },
         mounted() {
-            this.getUsers();
+            this.getTrainings();
         }
     }
 </script>
