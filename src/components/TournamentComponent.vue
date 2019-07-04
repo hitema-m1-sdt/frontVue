@@ -1,6 +1,6 @@
 <template>
     <div class="col-9 mx-auto">
-        <h1>Compétitions</h1><b-button id="show-btn" @click="$bvModal.show('bv-modal-example')">Open Modal</b-button><br /><br />
+        <h1>Compétitions</h1><b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-example')">Ajouter un compétition</b-button><br /><br />
         <table class="table table-bordered">
             <tr>
                 <th>Catégorie</th>
@@ -18,7 +18,7 @@
 
         <b-modal id="bv-modal-example" hide-footer v-if="form.categories != []">
     <template slot="modal-title">
-      Using <code>$bvModal</code> Methods
+      Ajouter une compétition
     </template>
     <div class="d-block text-center">
       <!----------------------DEBUT FORM MODAL-------------->
@@ -72,7 +72,7 @@
     </b-form>
       <!----------------------FIN FORM MODAL-------------->
     </div>
-    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Fermer</b-button>
   </b-modal>
 
     </div>
@@ -132,7 +132,21 @@
             },
             onSubmit(evt) {
             evt.preventDefault()
-            alert(JSON.stringify(this.form))
+            alert(JSON.stringify(this.form));
+            var init = this;
+              evt.preventDefault()
+              //alert(JSON.stringify(this.form));
+              this.$http.post('lesson/create',{
+                            idShooter: this.$auth.user.id,
+                            idCombatInstructor: this.form.instructor,
+                            comment: this.form.comment,
+              }).then(function (response) {
+                init.getLessons();
+                  console.log(response.data);
+                },function (response) {
+                  alert("ERREUR ESSAYE ENCORE")
+                  //console.log(response)
+                });
           },
           onReset(evt) {
             evt.preventDefault()
