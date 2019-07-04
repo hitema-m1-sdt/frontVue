@@ -16,60 +16,61 @@
             </tr>
         </table>
 
-        <b-modal id="bv-modal-example" hide-footer>
+        <b-modal id="bv-modal-example" hide-footer v-if="form.categories != []">
     <template slot="modal-title">
       Using <code>$bvModal</code> Methods
     </template>
     <div class="d-block text-center">
-      /////////////////////////////////////////////////////
+      <!----------------------DEBUT FORM MODAL-------------->
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          required
-          placeholder="Enter email"
-        ></b-form-input>
+        <b-form-group id="input-group-1" label="Nom de la compétition" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.name"
+            required
+            placeholder="Entrer nom"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="input-group-2" label="Localisation:" label-for="input-2">
+          <b-form-input
+            id="input-2"
+            v-model="form.address"
+            required
+            placeholder="Enter name"
+          ></b-form-input>
+        </b-form-group>
+
+      <b-form-group id="input-group-3" label="Catégories:" label-for="checkbox-group-1">
+          <b-form-checkbox-group
+                  id="checkbox-group-1"
+                  v-model="form.selectedCategories"
+                  :options="form.categories"
+                  name="flavour-1"
+          ></b-form-checkbox-group>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          required
-          placeholder="Enter name"
-        ></b-form-input>
+      <b-form-group id="input-group-3" label="Date:" label-for="input-3">
+          <b-form-input
+                  id="input-3"
+                  v-model="form.date"
+                  type="date"
+                  required
+          ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select
-          id="input-3"
-          v-model="form.food"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="input-group-4">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
+      <b-form-group id="input-group-4" label="Heure:" label-for="input-4">
+          <b-form-input
+                  id="input-4"
+                  v-model="form.time"
+                  type="time"
+                  required
+          ></b-form-input>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
-      //////////////////////////////////////////////////
+      <!----------------------FIN FORM MODAL-------------->
     </div>
     <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
   </b-modal>
@@ -84,17 +85,25 @@
             return{
             tournaments: [],
             form: {
-          email: '',
           name: '',
-          food: null,
-          checked: []
+          address: '',
+          categories: [{text: "M7", value: "M7"},
+                       {text: "M9", value: "M9"},
+                       {text: "M11", value: "M11"},
+                       {text: "M13", value: "M13"},
+                       {text: "M15", value: "M15"},
+                       {text: "M17", value: "M17"},
+                       {text: "M20", value: "M20"},
+                       {text: "Sénior", value: "Sénior"},],
+          selectedCategories: [],
+          date: '',
+          time: '',
         },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true,
+        show: false,
         }
         },
         methods:{
-            getTrainings() {
+            getTournaments() {
                 this.$http({
                     url: `tournament/getall`,
                     method: 'GET'
@@ -104,28 +113,43 @@
                     }, () => {
                         this.has_error = true
                     })
-            }
+            },
+            getCategories(){
+              var init = this;
+              this.$http({
+                  url: `category/getall`,
+                  method: 'GET'
+              })
+                  .then((res) => {
+                      init.categories = [];
+                     for(var i = 0; i < res.data.length; i++){
+                        init.categories.push({text: res.data[i].name, value: res.data[i].id});
+                     }
+                     init.show = true;
+                  }, () => {
+                      this.has_error = true
+                  })
+            },
+            onSubmit(evt) {
+            evt.preventDefault()
+            alert(JSON.stringify(this.form))
+          },
+          onReset(evt) {
+            evt.preventDefault()
+            // Reset our form values
+            this.form.email = ''
+            this.form.name = ''
+            // Trick to reset/clear native browser form validation state
+            this.show = false
+            this.$nextTick(() => {
+              this.show = true
+            })
+          },
         },
-        onSubmit(evt) {
-        evt.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
-      },
         mounted() {
-            this.getTrainings();
-        }
+            this.getTournaments();
+            this.getCategories();
+        },
     }
 </script>
 
