@@ -23,7 +23,7 @@
                 <td>
                     <b-button variant="success" @click="$bvModal.show('bv-modal-edit'), editTraining(training.id)"><font-awesome-icon icon="edit" /></b-button>
                     |
-                    <b-button variant="danger" @click="deleteLesson(lesson.id)"><font-awesome-icon icon="trash" /></b-button>
+                    <b-button variant="danger" @click="deleteTraining(training.id)"><font-awesome-icon icon="trash" /></b-button>
                 </td>
             </tr>
         </table>
@@ -222,6 +222,20 @@
                 },function (response) {
                     console.log(response)
                 });
+            },
+            deleteTraining($id){
+                console.log("ok");
+                var init = this;
+                this.$http({
+                    url: `training/delete/${$id}`,
+                    method: 'GET'
+                })
+                    .then((res) => {
+                        console.log(res);
+                        init.getTrainings();
+                    }, () => {
+                        this.has_error = true
+                    })
             },
             onSubmit(evt) {
                 var init = this;
