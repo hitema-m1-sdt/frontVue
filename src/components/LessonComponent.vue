@@ -4,8 +4,8 @@
       <table class="table table-bordered">
             <tr>
                 <th>Maitre armes</th>
-                <th>Tireur</th>
-                <th>Comment</th>
+                <th>Tireurs</th>
+                <th>Commentaires</th>
             </tr>
 
             <tr v-for="lesson in lessons">
