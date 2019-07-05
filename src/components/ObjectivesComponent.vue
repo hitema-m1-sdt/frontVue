@@ -1,6 +1,8 @@
 <template>
     <div class="col-9 mx-auto">
-        <h1>Objectifs</h1><b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-example')">+</b-button>
+        <h1>Objectifs</h1>
+        <b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-example')">
+            Ajouter objectif </b-button>
       <table class="table table-bordered">
             <tr>
                 <th>Tireurs</th>
