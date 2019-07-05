@@ -204,14 +204,17 @@
                     <th>Nom</th>
                     <th>Adresse</th>
                     <th>Date et horaire</th>
-                    <th>S'inscrire</th>
+                    <th>Inscrit</th>
                 </tr>
-                <tr v-for="tournament in tournaments">
+                <tr v-for="tournament in tournamentsWithParticipants">
                     <td> {{tournament.categories}}</td>
                     <td> {{tournament.name}}</td>
                     <td> {{tournament.localisation}}</td>
                     <td> {{tournament.date}} {{tournament.hour}}</td>
-                    <td> <b-button variant="success" @click="validateParticipation(tournament.id)"><font-awesome-icon icon="sign-in-alt" /></b-button> </td>
+                    <td>
+                        <b-button variant="success" v-if="tournament.participants.length === 0" @click="validateParticipation(tournament.id)"><font-awesome-icon icon="sign-in-alt" />S'inscrire</b-button>
+                        <span v-else><font-awesome-icon icon="check" /></span>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -225,6 +228,7 @@
         data() {
             return{
             tournaments: [],
+                tournamentsWithParticipants: [],
             form: {
           name: '',
           address: '',
@@ -267,6 +271,28 @@
                     }, () => {
                         this.has_error = true
                     })
+            },
+            getTournamentsWithParticipant($id){
+                this.$http({
+                    url: `tournament/get/participant/${$id}`,
+                    method: 'GET'
+                })
+                    .then((res) => {
+                        this.tournamentsWithParticipants = res.data;
+                    }, () => {
+                        this.has_error = true
+                    })
+            },
+            validateParticipation($id)
+            {
+                var init = this;
+                this.$http.post(`/tournament/signup`,{
+                    user: init.$auth.user.id,
+                    tournament: $id
+
+                }) .then(function () {
+                    init.getTournaments();
+                });
             },
             getCategories(){
               var init = this;
@@ -334,6 +360,7 @@
         },
         mounted() {
             this.getTournaments();
+            this.getTournamentsWithParticipant(this.$auth.user.id);
             this.getCategories();
         },
     }
