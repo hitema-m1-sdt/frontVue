@@ -140,14 +140,14 @@
 
         </div vi>
         <div class="col-9 mx-auto" v-if="this.$auth.user.role === 'TIREUR'">
-            <h1>Entraînements</h1>
+            <h1>Entraînements du jour</h1>
             <div class="table-wrapper-scroll-y my-custom-scrollbar"  v-if="trainingsOfTheDay.length > 0">
                 <table class="table table-bordered">
                     <tr>
                         <th>Jour</th>
                         <th>Heure</th>
                         <th>Type</th>
-                        <th>Participation</th>
+                        <th>Présent</th>
                     </tr>
                     <tr v-for="training in trainingsOfTheDay">
                         <td> {{new Date(training.date)|dateFormat('DD/MM/YYYY')}}</td>
@@ -156,7 +156,8 @@
                         <td>
 
 
-                            <b-button variant="success" ><font-awesome-icon icon="check" /></b-button>
+                            <b-button variant="success" v-if="training.attendances.length === 0" v-on:click="validateAttendance(training.id)" >Valider présence</b-button>
+                            <span v-else><font-awesome-icon icon="check" /></span>
                         </td>
                     </tr>
                 </table>
@@ -216,7 +217,7 @@
             getTrainingsofTheDay()
             {
                 this.$http({
-                    url: `training/today`,
+                    url: `training/today/${this.$auth.user.id}`,
                     method: 'GET'
                 })
                     .then((res) => {
@@ -225,23 +226,12 @@
                         this.has_error = true
                     })
             },
-            getAttendancesOfTheDay($id)
-            {
-                this.$http({
-                    url: `attendances/today/${$id}`,
-                    method: 'GET'
-                })
-                    .then((res) => {
-                       this.userAttendances = res.data;
-                    }, () => {
-                        this.has_error = true
-                    })
-
-            },
             validateAttendance($id)
             {
                 var init = this;
-                this.$http.post(`/training/update/${$id}`,{
+                this.$http.post(`/attendance/create`,{
+                    user: init.$auth.user.id,
+                    training: $id
 
                 }) .then(function () {
                         init.getTrainingsofTheDay();
@@ -335,7 +325,6 @@
                 this.getTrainings();
             if(this.$auth.user.role === 'TIREUR'){
                 this.getTrainingsofTheDay();
-                this.getAttendancesOfTheDay(this.$auth.user.id);
             }
 
         },
