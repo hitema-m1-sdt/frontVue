@@ -18,7 +18,10 @@
                 <td v-if="objective.knowledge == 1"> Acquis</td>
                 <td v-else> Non Acquis</td>
                 <td> {{objective.comment}}</td>
-                  <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updateobjective'), editObjectives(objective.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteObjectives(objective.id)"><font-awesome-icon icon="trash" /></b-button></td>
+                  <td>
+                      <b-button variant="success" @click="$bvModal.show('bv-modal-updateobjective'), editObjectives(objective.id)"><font-awesome-icon icon="edit" /></b-button>
+                      <b-button variant="danger" @click="deleteObjectives(objective.id)"><font-awesome-icon icon="trash" /></b-button>
+                  </td>
             </tr>
         </table>
 

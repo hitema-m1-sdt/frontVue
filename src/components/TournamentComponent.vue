@@ -285,13 +285,15 @@
             },
             validateParticipation($id)
             {
+
+                console.log($id);
                 var init = this;
                 this.$http.post(`/tournament/signup`,{
                     user: init.$auth.user.id,
                     tournament: $id
 
                 }) .then(function () {
-                    init.getTournaments();
+                    init.getTournamentsWithParticipant(init.$auth.user.id);
                 });
             },
             getCategories(){
