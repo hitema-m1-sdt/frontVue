@@ -97,7 +97,8 @@
         }
         },
         methods:{
-            getTrainings() {
+            getObjectives() {
+                var init = this;
                 this.$http({
                     url: `objective/getall`,
                     method: 'GET'
@@ -107,9 +108,10 @@
                     }, () => {
                         this.has_error = true
                     })
+                    init.getObjectives();
             },
             onSubmit(evt) {
-            var test = this;
+            var init = this;
               evt.preventDefault()
               //alert(JSON.stringify(this.form));
               this.$http.post('objective/create',{
