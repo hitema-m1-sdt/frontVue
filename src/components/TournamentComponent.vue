@@ -1,141 +1,163 @@
 <template>
-    <div class="col-9 mx-auto">
-        <h1>Compétitions</h1><b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-createtournament')">Ajouter un compétition</b-button><br /><br />
-        <table class="table table-bordered">
-            <tr>
-                <th>Catégorie</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Date et horaire</th>
-                <th>Action</th>
-            </tr>
-            <tr v-for="tournament in tournaments">
-                <td> {{tournament.categories}}</td>
-                <td> {{tournament.name}}</td>
-                <td> {{tournament.localisation}}</td>
-                <td> {{tournament.date}} {{tournament.hour}}</td>
-                <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatetournament'), editTournament(tournament.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteTournament(tournament.id)"><font-awesome-icon icon="trash" /></b-button></td>
-            </tr>
-        </table>
+    <div>
+        <div class="col-9 mx-auto"  v-if="this.$auth.user.role === 'ADMIN'">
+            <h1>Compétitions</h1><b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-createtournament')">Ajouter un compétition</b-button><br /><br />
+            <table class="table table-bordered">
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Date et horaire</th>
+                    <th>Action</th>
+                </tr>
+                <tr v-for="tournament in tournaments">
+                    <td> {{tournament.categories}}</td>
+                    <td> {{tournament.name}}</td>
+                    <td> {{tournament.localisation}}</td>
+                    <td> {{tournament.date}} {{tournament.hour}}</td>
+                    <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatetournament'), editTournament(tournament.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteTournament(tournament.id)"><font-awesome-icon icon="trash" /></b-button></td>
+                </tr>
+            </table>
 
-        <b-modal id="bv-modal-createtournament" hide-footer v-if="form.categories != []">
-    <template slot="modal-title">
-      Ajouter une compétition
-    </template>
-    <div class="d-block text-center">
-      <!----------------------DEBUT FORM MODAL-------------->
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group id="input-group-1" label="Nom de la compétition" label-for="input-1">
-          <b-form-input
-            id="input-1"
-            v-model="form.name"
-            required
-            placeholder="Entrer nom"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-2" label="Localisation:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model="form.address"
-            required
-            placeholder="Enter name"
-          ></b-form-input>
-        </b-form-group>
+            <b-modal id="bv-modal-createtournament" hide-footer v-if="form.categories != []">
+                <template slot="modal-title">
+                    Ajouter une compétition
+                </template>
+                <div class="d-block text-center">
+                    <!----------------------DEBUT FORM MODAL-------------->
+                    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                        <b-form-group id="input-group-1" label="Nom de la compétition" label-for="input-1">
+                            <b-form-input
+                                    id="input-1"
+                                    v-model="form.name"
+                                    required
+                                    placeholder="Entrer nom"
+                            ></b-form-input>
+                        </b-form-group>
+                        <b-form-group id="input-group-2" label="Localisation:" label-for="input-2">
+                            <b-form-input
+                                    id="input-2"
+                                    v-model="form.address"
+                                    required
+                                    placeholder="Enter name"
+                            ></b-form-input>
+                        </b-form-group>
 
-      <b-form-group id="input-group-3" label="Catégories:" label-for="checkbox-group-1">
-          <b-form-checkbox-group
-                  id="checkbox-group-1"
-                  v-model="form.selectedCategories"
-                  :options="form.categories"
-                  name="flavour-1"
-          ></b-form-checkbox-group>
-      </b-form-group>
+                        <b-form-group id="input-group-3" label="Catégories:" label-for="checkbox-group-1">
+                            <b-form-checkbox-group
+                                    id="checkbox-group-1"
+                                    v-model="form.selectedCategories"
+                                    :options="form.categories"
+                                    name="flavour-1"
+                            ></b-form-checkbox-group>
+                        </b-form-group>
 
-      <b-form-group id="input-group-3" label="Date:" label-for="input-3">
-          <b-form-input
-                  id="input-3"
-                  v-model="form.date"
-                  type="date"
-                  required
-          ></b-form-input>
-      </b-form-group>
+                        <b-form-group id="input-group-3" label="Date:" label-for="input-3">
+                            <b-form-input
+                                    id="input-3"
+                                    v-model="form.date"
+                                    type="date"
+                                    required
+                            ></b-form-input>
+                        </b-form-group>
 
-      <b-form-group id="input-group-4" label="Heure:" label-for="input-4">
-          <b-form-input
-                  id="input-4"
-                  v-model="form.time"
-                  type="time"
-                  required
-          ></b-form-input>
-      </b-form-group>
+                        <b-form-group id="input-group-4" label="Heure:" label-for="input-4">
+                            <b-form-input
+                                    id="input-4"
+                                    v-model="form.time"
+                                    type="time"
+                                    required
+                            ></b-form-input>
+                        </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-createtournament')">Envoyer</b-button>
-      <b-button type="reset" variant="danger">Réinitialiser</b-button>
-    </b-form>
-      <!----------------------FIN FORM MODAL-------------->
+                        <b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-createtournament')">Envoyer</b-button>
+                        <b-button type="reset" variant="danger">Réinitialiser</b-button>
+                    </b-form>
+                    <!----------------------FIN FORM MODAL-------------->
+                </div>
+                <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-createtournament')">Fermer</b-button>
+            </b-modal>
+
+            <b-modal id="bv-modal-updatetournament" hide-footer v-if="form.categories != []">
+                <template slot="modal-title">
+                    Modifier une compétition
+                </template>
+                <div class="d-block text-center">
+                    <!----------------------DEBUT FORM MODAL-------------->
+                    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                        <b-form-group id="input-group-1" label="Nom de la compétition" label-for="input-1">
+                            <b-form-input
+                                    id="input-1"
+                                    v-model="form.name"
+                                    required
+                                    placeholder="Entrer nom"
+                            ></b-form-input>
+                        </b-form-group>
+                        <b-form-group id="input-group-2" label="Localisation:" label-for="input-2">
+                            <b-form-input
+                                    id="input-2"
+                                    v-model="form.address"
+                                    required
+                                    placeholder="Enter name"
+                            ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-3" label="Catégories:" label-for="checkbox-group-1">
+                            <b-form-checkbox-group
+                                    id="checkbox-group-1"
+                                    v-model="form.selectedCategories"
+                                    :options="form.categories"
+                                    name="flavour-1"
+                            ></b-form-checkbox-group>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-3" label="Date:" label-for="input-3">
+                            <b-form-input
+                                    id="input-3"
+                                    v-model="form.date"
+                                    type="date"
+                                    required
+                            ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-4" label="Heure:" label-for="input-4">
+                            <b-form-input
+                                    id="input-4"
+                                    v-model="form.time"
+                                    type="time"
+                                    required
+                            ></b-form-input>
+                        </b-form-group>
+
+                        <b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-updatetournament')">Envoyer</b-button>
+                    </b-form>
+                    <!----------------------FIN FORM MODAL-------------->
+                </div>
+                <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-updatetournament')">Fermer</b-button>
+            </b-modal>
+
+        </div>
+        <div class="col9 mx-auto" v-if="this.$auth.user.role === 'TIREUR' || this.$auth.user.role === 'MAITRE'">
+            <h1>Compétitions</h1>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Date et horaire</th>
+                    <th>S'inscrire</th>
+                </tr>
+                <tr v-for="tournament in tournaments">
+                    <td> {{tournament.categories}}</td>
+                    <td> {{tournament.name}}</td>
+                    <td> {{tournament.localisation}}</td>
+                    <td> {{tournament.date}} {{tournament.hour}}</td>
+                    <td> <b-button variant="success" @click="validateParticipation(tournament.id)"><font-awesome-icon icon="sign-in-alt" /></b-button> </td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-createtournament')">Fermer</b-button>
-  </b-modal>
 
-  <b-modal id="bv-modal-updatetournament" hide-footer v-if="form.categories != []">
-<template slot="modal-title">
-Modifier une compétition
-</template>
-<div class="d-block text-center">
-<!----------------------DEBUT FORM MODAL-------------->
-<b-form @submit="onSubmit" @reset="onReset" v-if="show">
-  <b-form-group id="input-group-1" label="Nom de la compétition" label-for="input-1">
-    <b-form-input
-      id="input-1"
-      v-model="form.name"
-      required
-      placeholder="Entrer nom"
-    ></b-form-input>
-  </b-form-group>
-  <b-form-group id="input-group-2" label="Localisation:" label-for="input-2">
-    <b-form-input
-      id="input-2"
-      v-model="form.address"
-      required
-      placeholder="Enter name"
-    ></b-form-input>
-  </b-form-group>
-
-<b-form-group id="input-group-3" label="Catégories:" label-for="checkbox-group-1">
-    <b-form-checkbox-group
-            id="checkbox-group-1"
-            v-model="form.selectedCategories"
-            :options="form.categories"
-            name="flavour-1"
-    ></b-form-checkbox-group>
-</b-form-group>
-
-<b-form-group id="input-group-3" label="Date:" label-for="input-3">
-    <b-form-input
-            id="input-3"
-            v-model="form.date"
-            type="date"
-            required
-    ></b-form-input>
-</b-form-group>
-
-<b-form-group id="input-group-4" label="Heure:" label-for="input-4">
-    <b-form-input
-            id="input-4"
-            v-model="form.time"
-            type="time"
-            required
-    ></b-form-input>
-</b-form-group>
-
-<b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-updatetournament')">Envoyer</b-button>
-</b-form>
-<!----------------------FIN FORM MODAL-------------->
-</div>
-<b-button class="mt-3" block @click="$bvModal.hide('bv-modal-updatetournament')">Fermer</b-button>
-</b-modal>
-
-    </div>
 </template>
 
 <script>
@@ -202,7 +224,19 @@ Modifier une compétition
                   }, () => {
                       this.has_error = true
                   })
-            },
+            }
+        ,
+        validateParticipation($id)
+        {
+            var init = this;
+            this.$http.post(`/competition/signup`,{
+                user: init.$auth.user.id,
+                tournament: $id
+
+            }) .then(function () {
+                init.getTournaments();
+            });
+        },
             onSubmit(evt) {
             evt.preventDefault()
             //alert(JSON.stringify(this.form));

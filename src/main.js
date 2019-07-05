@@ -8,7 +8,17 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBullseye, faWalking, faScroll, faTrophy, faArrowLeft, faEdit, faTrash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBullseye,
+  faWalking,
+  faScroll,
+  faTrophy,
+  faArrowLeft,
+  faEdit,
+  faTrash,
+  faCheck,
+  faSignInAlt
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './routes'
 import auth from './auth'
@@ -19,7 +29,7 @@ Vue.use(VueFilterDateFormat);
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
-library.add(faBullseye, faWalking, faScroll,faTrophy, faArrowLeft, faEdit, faTrash, faCheck);
+library.add(faBullseye, faWalking, faScroll,faTrophy, faArrowLeft, faEdit, faTrash, faCheck, faSignInAlt);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
