@@ -10,6 +10,7 @@
                 <th>Arme</th>
                 <th>Genre</th>
                 <th>Niveau</th>
+                <th>Participants</th>
                 <th>Action</th>
             </tr>
             <tr v-for="tournament in tournaments">
@@ -20,7 +21,12 @@
                 <td> {{tournament.arm}}</td>
                 <td> {{tournament.gender}}</td>
                 <td> {{tournament.level}}</td>
-                <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatetournament'), editTournament(tournament.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteTournament(tournament.id)"><font-awesome-icon icon="trash" /></b-button></td>
+                <td> <ul style="list-style:none;margin-left:0;padding-left:0;" id="participants">
+                    <li v-for="participant in tournament.participants">
+                      {{participant.name}}
+                    </li>
+                  </ul></td>
+                <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatetournament'), editTournament(tournament.id)"><font-awesome-icon icon="edit" /></b-button><b-button variant="danger" @click="deleteTournament(tournament.id)"><font-awesome-icon icon="trash" /></b-button></td>
             </tr>
         </table>
 
@@ -236,10 +242,11 @@ Modifier une compétition
         methods:{
             getTournaments() {
                 this.$http({
-                    url: `tournament/getall`,
+                    url: `tournament/get/participant`,
                     method: 'GET'
                 })
                     .then((res) => {
+                      console.log(res);
                        this.tournaments = res.data;
                     }, () => {
                         this.has_error = true
