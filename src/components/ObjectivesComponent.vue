@@ -11,7 +11,7 @@
             </tr>
 
             <tr v-for="objective in objectives">
-                <td> {{objective.idShooter}}</td>
+                <td> {{objective.tireur.name}}</td>
                 <td> {{objective.objectiveName}}</td>
                 <td v-if="objective.knowledge == 1"> Acquis</td>
                 <td v-else> Non Acquis</td>
@@ -150,12 +150,13 @@
         },
         objectiveupdateid: null,
         //Attendre que nico finisse l'automatisation
-        shooters: [{ text: 'Sélection du tireur', value: null }, { text: 'Jean Yves', value: 1 }, { text: 'Fabrice Wild', value: 2 }, { text: 'Pierre Coper', value: 3 }],
+        shooters: [],
         show: true
         }
         },
         methods:{
             getObjectives() {
+              var init = this;
                 this.$http({
                     url: `objective/getall`,
                     method: 'GET'
@@ -165,6 +166,22 @@
                     }, () => {
                         this.has_error = true
                     })
+                    init.getShooter();
+            },
+            getShooter(){
+              this.$http({
+                  url: `user/get/tireur`,
+                  method: 'GET'
+              })
+                  .then((res) => {
+                     this.shooters =  [{ text: 'Sélectionner le tireur', value: null }, ];
+                     for(var i=0;i<res.data.length;i++){
+                       this.shooters.push({ text: res.data[i].name, value: res.data[i].id });
+                     }
+                  }, () => {
+                      this.has_error = true
+                  })
+
             },
             editObjectives(id){
               this.$http({
@@ -172,7 +189,8 @@
                   method: 'GET'
               })
                   .then((res) => {
-                     this.form.shooter=this.$auth.user.id,
+                    console.log(res);
+                     this.form.shooter=res.data.idShooter,
                      this.form.objective=res.data.objectiveName,
                      this.form.knowledge=res.data.knowledge,
                      this.form.comment=res.data.comment,
@@ -216,7 +234,7 @@
               evt.preventDefault()
               //alert(JSON.stringify(this.form));
               this.$http.post('objective/create',{
-                            idShooter: this.$auth.user.id,
+                            idShooter: this.form.shooter,
                             objectiveName: this.form.objective,
                             knowledge: this.form.knowledge,
                             comment: this.form.comment,
@@ -246,6 +264,7 @@
         },
         mounted() {
             this.getObjectives();
+            this.form.shooter = this.$auth.user.name;
         }
     }
 </script>

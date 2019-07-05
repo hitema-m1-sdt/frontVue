@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <div class="col-9 mx-auto"  v-if="this.$auth.user.role === 'ADMIN'">
             <h1>Compétitions</h1><b-button id="show-btn" variant="success" @click="$bvModal.show('bv-modal-createtournament')">Ajouter un compétition</b-button><br /><br />
@@ -8,6 +9,9 @@
                     <th>Nom</th>
                     <th>Adresse</th>
                     <th>Date et horaire</th>
+                    <th>Arme</th>
+                    <th>Genre</th>
+                    <th>Niveau</th>
                     <th>Action</th>
                 </tr>
                 <tr v-for="tournament in tournaments">
@@ -15,6 +19,9 @@
                     <td> {{tournament.name}}</td>
                     <td> {{tournament.localisation}}</td>
                     <td> {{tournament.date}} {{tournament.hour}}</td>
+                    <td> {{tournament.arm}}</td>
+                    <td> {{tournament.gender}}</td>
+                    <td> {{tournament.level}}</td>
                     <td> <b-button variant="success" @click="$bvModal.show('bv-modal-updatetournament'), editTournament(tournament.id)"><font-awesome-icon icon="edit" /></b-button> | <b-button variant="danger" @click="deleteTournament(tournament.id)"><font-awesome-icon icon="trash" /></b-button></td>
                 </tr>
             </table>
@@ -68,6 +75,33 @@
                                     type="time"
                                     required
                             ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-5" label="Arme:" label-for="input-5">
+                            <b-form-select
+                                    id="input-5"
+                                    v-model="form.arm"
+                                    :options="arms"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-6" label="Genre:" label-for="input-6">
+                            <b-form-select
+                                    id="input-6"
+                                    v-model="form.gender"
+                                    :options="genders"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-7" label="Niveau:" label-for="input-7">
+                            <b-form-select
+                                    id="input-7"
+                                    v-model="form.level"
+                                    :options="levels"
+                                    required
+                            ></b-form-select>
                         </b-form-group>
 
                         <b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-createtournament')">Envoyer</b-button>
@@ -128,7 +162,32 @@
                                     required
                             ></b-form-input>
                         </b-form-group>
+                        <b-form-group id="input-group-5" label="Arme:" label-for="input-5">
+                            <b-form-select
+                                    id="input-5"
+                                    v-model="form.arm"
+                                    :options="arms"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
 
+                        <b-form-group id="input-group-6" label="Genre:" label-for="input-6">
+                            <b-form-select
+                                    id="input-6"
+                                    v-model="form.gender"
+                                    :options="genders"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-7" label="Niveau:" label-for="input-7">
+                            <b-form-select
+                                    id="input-7"
+                                    v-model="form.level"
+                                    :options="levels"
+                                    required
+                            ></b-form-select>
+                        </b-form-group>
                         <b-button type="submit" variant="primary" @click="$bvModal.hide('bv-modal-updatetournament')">Envoyer</b-button>
                     </b-form>
                     <!----------------------FIN FORM MODAL-------------->
@@ -176,11 +235,24 @@
                        {text: "M15", value: "M15"},
                        {text: "M17", value: "M17"},
                        {text: "M20", value: "M20"},
-                       {text: "Sénior", value: "Sénior"},],
+                       {text: "Sénior", value: "Sénior"}],
+          gender: '',
+          arm: '',
+          level: '',
           selectedCategories: [],
           date: '',
           time: '',
         },
+        genders:[{text: "Homme", value: "Homme"},
+                {text: "Dame", value: "Dame"},
+              {text: "Mixe", value: "Mixe"},],
+        arms:[  {text: "Epée", value: "Epée"},
+                {text: "Sabre", value: "Sabre"},
+                {text: "Fleuret", value: "Fleuret"}],
+        levels:[{text: "Challenge / Open", value: "Challenge / Open"},
+                {text: "Départementale", value: "Départementale"},
+                {text: "Événement", value: "Événement"},
+                {text: "Nationale", value: "Nationale"}],
         show: false,
         }
         },
@@ -224,19 +296,7 @@
                   }, () => {
                       this.has_error = true
                   })
-            }
-        ,
-        validateParticipation($id)
-        {
-            var init = this;
-            this.$http.post(`/competition/signup`,{
-                user: init.$auth.user.id,
-                tournament: $id
-
-            }) .then(function () {
-                init.getTournaments();
-            });
-        },
+            },
             onSubmit(evt) {
             evt.preventDefault()
             //alert(JSON.stringify(this.form));
@@ -249,6 +309,9 @@
                             localisation: this.form.address,
                             date: this.form.date,
                             hour: this.form.time,
+                            arm: this.form.arm,
+                            gender: this.form.gender,
+                            level: this.form.level,
               }).then(function (response) {
                 init.getTournaments();
                   console.log(response.data);

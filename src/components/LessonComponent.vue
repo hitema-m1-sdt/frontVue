@@ -74,7 +74,6 @@
           id="input-1"
           v-model="form.name"
           required
-          disabled
           placeholder="Entrez votre nom"
         ></b-form-input>
       </b-form-group>
@@ -241,7 +240,6 @@
         mounted() {
             this.getLessons();
             this.form.name = this.$auth.user.name;
-
         }
     }
 </script>
